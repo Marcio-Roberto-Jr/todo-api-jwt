@@ -1,31 +1,39 @@
 from datetime import datetime
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
+
 from .database import Base
 
 
 class Usuario(Base):
     __tablename__ = "usuarios"
 
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
-    senha_hash = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    email: Mapped[str] = mapped_column(String, unique=True, index=True)
+    senha_hash: Mapped[str] = mapped_column(String)
+    refresh_token_hash: Mapped[str | None] = mapped_column(String, nullable=True)
+    refresh_token_expira: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
-    # Relacionamento 1:N com tarefas
-    tarefas = relationship("Tarefa", back_populates="dono", cascade="all, delete-orphan")
+    tarefas: Mapped[list["Tarefa"]] = relationship(
+        back_populates="dono", cascade="all, delete-orphan"
+    )
 
 
 class Tarefa(Base):
     __tablename__ = "tarefas"
 
-    id = Column(Integer, primary_key=True, index=True)
-    titulo = Column(String, nullable=False)
-    descricao = Column(String, nullable=True)
-    status = Column(Boolean, default=False)  # False = pendente, True = concluída
-    data_criacao = Column(DateTime(timezone=True), server_default=func.now())
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    titulo: Mapped[str] = mapped_column(String)
+    descricao: Mapped[str | None] = mapped_column(String, nullable=True)
+    status: Mapped[bool] = mapped_column(Boolean, default=False)
+    data_criacao: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"))
 
-    # Relacionamento N:1 com usuario
-    dono = relationship("Usuario", back_populates="tarefas")
+    dono: Mapped["Usuario"] = relationship(back_populates="tarefas")

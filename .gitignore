@@ -1,15 +1,21 @@
 # Python / Virtual Environment
 venv/
 .venv/
+backend/venv/
+backend/.venv/
+**/venv/
+**/.venv/
 __pycache__/
 *.py[cod]
 
 # Banco de Dados SQLite local
 *.db
 todo.db
+backend/*.db
 
 # Variáveis de ambiente
 .env
+backend/.env
 
 # Arquivos da IDE
 .vscode/

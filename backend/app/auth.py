@@ -1,8 +1,11 @@
 import os
+import hashlib
+import secrets
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from jose import jwt
 from passlib.context import CryptContext
+
 
 load_dotenv()
 
@@ -36,3 +39,19 @@ def criar_token_acesso(data: dict, expires_delta: timedelta | None = None) -> st
     payload.update({"exp": expiracao})
     token_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token_jwt
+
+REFRESH_TOKEN_EXPIRE_DIAS = 7
+
+
+def criar_refresh_token(data: dict) -> str:
+    """Cria um refresh token JWT de longa duração, marcado com type=refresh."""
+    payload = data.copy()
+    agora = datetime.now(timezone.utc)
+    expiracao = agora + timedelta(days=REFRESH_TOKEN_EXPIRE_DIAS)
+    payload.update({"exp": expiracao, "type": "refresh"})
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+
+def hash_token(token: str) -> str:
+    """Gera um hash SHA-256 do token, usado para armazenar/comparar no banco."""
+    return hashlib.sha256(token.encode()).hexdigest()
