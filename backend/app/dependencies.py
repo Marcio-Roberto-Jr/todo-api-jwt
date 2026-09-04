@@ -16,6 +16,7 @@ if not SECRET_KEY:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
+
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:

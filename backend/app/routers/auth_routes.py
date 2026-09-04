@@ -26,6 +26,7 @@ if not SECRET_KEY:
         "com a variável SECRET_KEY definida."
     )
 
+
 @router.post(
     "/register",
     response_model=schemas.UsuarioResponse,

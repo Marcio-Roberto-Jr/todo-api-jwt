@@ -1,6 +1,5 @@
 import os
 import hashlib
-import secrets
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from jose import jwt
@@ -18,7 +17,7 @@ if not SECRET_KEY:
     )
 ALGORITHM = os.getenv("ALGORITHM")
 if not ALGORITHM:
-        raise RuntimeError(
+    raise RuntimeError(
         "ALGORITHM não configurado. Crie um arquivo .env na pasta backend/ "
         "com a variável ALGORITHM definida."
     )
@@ -49,11 +48,12 @@ def criar_token_acesso(data: dict, expires_delta: timedelta | None = None) -> st
     if expires_delta:
         expiracao = agora + expires_delta
     else:
-        expiracao = agora + timedelta(minutes= float(ACCESS_TOKEN_EXPIRE_MINUTES))
+        expiracao = agora + timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
 
     payload.update({"exp": expiracao})
     token_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token_jwt
+
 
 REFRESH_TOKEN_EXPIRE_DIAS = 7
 

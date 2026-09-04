@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from .database import Base, engine
 from .routers import auth_routes, tarefas_routes
+from fastapi.middleware.cors import CORSMiddleware
 
 # Cria as tabelas no SQLite se elas ainda não existirem
 Base.metadata.create_all(bind=engine)
@@ -11,7 +12,7 @@ app = FastAPI(
     description="Desafio Técnico - AFL Consultores",
     version="1.0.0"
 )
-from fastapi.middleware.cors import CORSMiddleware
+
 
 app.add_middleware(
     CORSMiddleware,
