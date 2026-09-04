@@ -46,7 +46,6 @@ A aplicação tem duas partes que rodam de forma independente, cada uma em seu p
 
 ```bash
 git clone <url-do-repositorio>
-cd afl-desafio
 ```
 
 ### 2. Configurar e executar o Backend
@@ -153,7 +152,7 @@ Acesse http://127.0.0.1:8000/docs e:
 ## Estrutura do projeto
 
 ```
-afl-desafio/
+<pasta-raiz>/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py               # instância FastAPI + CORS + rotas
