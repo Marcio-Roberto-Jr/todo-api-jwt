@@ -57,7 +57,7 @@ Abra um terminal na raiz do projeto e execute:
 # Entrar na pasta do backend
 cd backend
 
-# Criar o ambiente virtual
+# Criar o ambiente virtual (use py se python não funcionar)
 python -m venv venv
 
 # Ativar o ambiente virtual
