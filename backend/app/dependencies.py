@@ -8,8 +8,13 @@ from . import models, schemas
 from .auth import ALGORITHM, SECRET_KEY
 from .database import SessionLocal
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+if not SECRET_KEY:
+    raise RuntimeError(
+        "SECRET_KEY não configurada. Crie um arquivo .env na pasta backend/ "
+        "com a variável SECRET_KEY definida."
+    )
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()

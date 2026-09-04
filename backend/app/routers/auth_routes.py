@@ -20,6 +20,11 @@ from ..dependencies import get_current_user, get_db
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
+if not SECRET_KEY:
+    raise RuntimeError(
+        "SECRET_KEY não configurada. Crie um arquivo .env na pasta backend/ "
+        "com a variável SECRET_KEY definida."
+    )
 
 @router.post(
     "/register",

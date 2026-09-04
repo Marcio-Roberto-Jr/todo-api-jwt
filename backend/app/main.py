@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from .database import Base, engine
-from .routers import auth_routes
+from .routers import auth_routes, tarefas_routes
 
 # Cria as tabelas no SQLite se elas ainda não existirem
 Base.metadata.create_all(bind=engine)
@@ -22,6 +22,7 @@ app.add_middleware(
 )
 # Registro de Rotas
 app.include_router(auth_routes.router)
+app.include_router(tarefas_routes.router)
 
 
 @app.get("/")

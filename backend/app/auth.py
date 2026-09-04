@@ -10,9 +10,24 @@ from passlib.context import CryptContext
 load_dotenv()
 
 # Constantes de Configuração
-SECRET_KEY = os.getenv("SECRET_KEY", "minha_chave_secreta_super_segura_desafio_afl_2026")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError(
+        "SECRET_KEY não configurada. Crie um arquivo .env na pasta backend/ "
+        "com a variável SECRET_KEY definida."
+    )
+ALGORITHM = os.getenv("ALGORITHM")
+if not ALGORITHM:
+        raise RuntimeError(
+        "ALGORITHM não configurado. Crie um arquivo .env na pasta backend/ "
+        "com a variável ALGORITHM definida."
+    )
+ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+if not ACCESS_TOKEN_EXPIRE_MINUTES:
+    raise RuntimeError(
+        "ACCESS_TOKEN_EXPIRE_MINUTES não configurado. Crie um arquivo .env na pasta backend/ "
+        "com a variável ACCESS_TOKEN_EXPIRE_MINUTES definida."
+    )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -34,7 +49,7 @@ def criar_token_acesso(data: dict, expires_delta: timedelta | None = None) -> st
     if expires_delta:
         expiracao = agora + expires_delta
     else:
-        expiracao = agora + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expiracao = agora + timedelta(minutes= float(ACCESS_TOKEN_EXPIRE_MINUTES))
 
     payload.update({"exp": expiracao})
     token_jwt = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
