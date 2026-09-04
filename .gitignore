@@ -1,22 +1,27 @@
-# Python / Virtual Environment
+# Python & Ambientes Virtuais
+**/__pycache__/
+*.py[cod]
 venv/
 .venv/
-backend/venv/
-backend/.venv/
-**/venv/
-**/.venv/
-__pycache__/
-*.py[cod]
 
 # Banco de Dados SQLite local
 *.db
-todo.db
-backend/*.db
+*.sqlite3
 
-# Variáveis de ambiente
+# Variáveis de Ambiente
 .env
-backend/.env
+.env.*
+!.env.example
 
-# Arquivos da IDE
+# IDEs e Analisadores
 .vscode/
 .idea/
+
+# Node / Frontend
+node_modules/
+dist/
+*.local
+npm-debug.log*
+
+# Logs
+*.log
